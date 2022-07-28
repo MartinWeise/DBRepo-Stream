@@ -1,0 +1,43 @@
+version: "2"
+
+services:
+  hub:
+    build:
+      context: .
+      dockerfile: Dockerfile.hub
+    restart: always
+    image: jupyterhub
+    container_name: jupyterhub
+    volumes:
+      - "./jupyterhub_config.py:${HUB_CONFIG_PATH}"
+      - "./secrets/jupyterhub.key:${SSL_KEY_PATH}"
+      - "./secrets/jupyterhub.pem:${SSL_CERT_PATH}"
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+      - "data:${DATA_VOLUME_CONTAINER}"
+    ports:
+      - "443:443"
+      - "80:8000"
+    environment:
+      DOCKER_NETWORK_NAME: ${DOCKER_NETWORK_NAME}
+      DOCKER_NOTEBOOK_IMAGE: ${LOCAL_NOTEBOOK_IMAGE}
+      DOCKER_NOTEBOOK_DIR: ${DOCKER_NOTEBOOK_DIR}
+      DOCKER_SPAWN_CMD: ${DOCKER_SPAWN_CMD}
+      SSL_KEY: ${SSL_KEY_PATH}
+      SSL_CERT: ${SSL_CERT_PATH}
+    env_file:
+      - secrets/oauth.env
+    command: >
+      jupyterhub -f ${HUB_CONFIG_PATH}
+
+volumes:
+  data:
+    external:
+      name: ${DATA_VOLUME_HOST}
+  db:
+    external:
+      name: ${DB_VOLUME_HOST}
+
+networks:
+  default:
+    external:
+      name: ${DOCKER_NETWORK_NAME}
