@@ -1,4 +1,5 @@
 # JupyterHub Docker Compose
+This repository includes a multi user JupyterHub implementation using docker-compose. Credits to [jupyterhub-deploy-docker](https://github.com/jupyterhub/jupyterhub-deploy-docker).
 
 ## Prerequisites
 Following installation code is tested for Ubuntu and Debian.
@@ -11,8 +12,6 @@ Following installation code is tested for Ubuntu and Debian.
   - `sudo ln -s /snap/bin/certbot /usr/bin/certbot`
 
 ## Installation
-This repository includes a multi user JupyterHub implementation using docker-compose. Credits to [jupyterhub-deploy-docker](https://github.com/jupyterhub/jupyterhub-deploy-docker).
-
 This deployment uses GitHub OAuth to authenticate users. For this create and register a [GitHub OAuth application](https://github.com/settings/applications/new). After that use the obtained information to create an `oauth.env` file in a secrets folder. The `oauth.env` file should look like this:
 
 ```
