@@ -1,2 +1,3 @@
 FROM conda/miniconda3
-RUN conda install -c conda-forge jupyterhub oauthenticator dockerspawner
+RUN conda install -c conda-forge jupyterhub \
+    oauthenticator dockerspawner

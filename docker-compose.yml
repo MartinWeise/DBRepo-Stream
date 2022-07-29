@@ -10,13 +10,12 @@ services:
     container_name: jupyterhub
     volumes:
       - "./jupyterhub_config.py:${HUB_CONFIG_PATH}"
-      - "./secrets/jupyterhub.key:${SSL_KEY_PATH}"
-      - "./secrets/jupyterhub.pem:${SSL_CERT_PATH}"
+      - "./secrets/jupyterhub-key.pem:${SSL_KEY_PATH}"
+      - "./secrets/jupyterhub-crt.pem:${SSL_CERT_PATH}"
       - "/var/run/docker.sock:/var/run/docker.sock:rw"
       - "data:${DATA_VOLUME_CONTAINER}"
     ports:
       - "443:443"
-      - "80:8000"
     environment:
       DOCKER_NETWORK_NAME: ${DOCKER_NETWORK_NAME}
       DOCKER_NOTEBOOK_IMAGE: ${LOCAL_NOTEBOOK_IMAGE}
