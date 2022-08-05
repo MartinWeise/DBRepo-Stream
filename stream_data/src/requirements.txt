@@ -1,0 +1,4 @@
+pandas
+flatten_json
+requests
+sqlalchemy

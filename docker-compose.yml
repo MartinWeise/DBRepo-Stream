@@ -1,17 +1,18 @@
 version: "2"
 
 services:
+
   hub:
     build:
-      context: .
+      context: ./jupyterhub
       dockerfile: Dockerfile.hub
     restart: always
     image: jupyterhub
     container_name: jupyterhub
     volumes:
-      - "./jupyterhub_config.py:${HUB_CONFIG_PATH}"
-      - "./secrets/jupyterhub-key.pem:${SSL_KEY_PATH}"
-      - "./secrets/jupyterhub-crt.pem:${SSL_CERT_PATH}"
+      - "./jupyterhub/jupyterhub_config.py:${HUB_CONFIG_PATH}"
+      - "./jupyterhub/secrets/jupyterhub-key.pem:${SSL_KEY_PATH}"
+      - "./jupyterhub/secrets/jupyterhub-crt.pem:${SSL_CERT_PATH}"
       - "/var/run/docker.sock:/var/run/docker.sock:rw"
       - "data:${DATA_VOLUME_CONTAINER}"
     ports:
@@ -24,9 +25,41 @@ services:
       SSL_KEY: ${SSL_KEY_PATH}
       SSL_CERT: ${SSL_CERT_PATH}
     env_file:
-      - secrets/oauth.env
+      - jupyterhub/secrets/oauth.env
     command: >
       jupyterhub -f ${HUB_CONFIG_PATH}
+
+
+  grafana:
+    image: grafana/grafana-oss
+    restart: always
+    container_name: grafana
+    volumes:
+      - "./grafana/grafana.ini:/etc/grafana/grafana.ini"
+    ports:
+      - "80:3000"
+
+  stream:
+    build:
+      context: ./stream_data
+      dockerfile: Dockerfile
+    restart: always
+    container_name: stream
+    volumes:
+      - "./stream_data/src:/home"
+
+  # mysql:
+  #   image: mysql
+  #   ports:
+  #     - "8000:3306"
+  #   volumes:
+  #     - ~/apps/mysql:/var/lib/mysql
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=password
+  #     - MYSQL_PASSWORD=password
+  #     - MYSQL_USER=admin
+  #     - MYSQL_DATABASE=db
+
 
 volumes:
   data:
