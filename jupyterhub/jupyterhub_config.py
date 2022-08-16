@@ -6,10 +6,11 @@ network_name = os.environ['DOCKER_NETWORK_NAME']
 c.DockerSpawner.use_internal_ip = True
 c.DockerSpawner.network_name = network_name
 c.DockerSpawner.extra_host_config = { 'network_mode': network_name }
-# notebook_dir = '/notebooks'
+
+# notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
 # c.DockerSpawner.notebook_dir = notebook_dir
 # c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir }
-c.DockerSpawner.remove_containers = True
+c.DockerSpawner.remove_containers = False
 c.DockerSpawner.debug = True
 
 c.JupyterHub.hub_ip = 'jupyterhub'

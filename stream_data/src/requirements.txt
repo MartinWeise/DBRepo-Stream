@@ -2,3 +2,6 @@ pandas
 flatten_json
 requests
 sqlalchemy
+pika==1.2.0
+dbrepo==0.0.8
+regex

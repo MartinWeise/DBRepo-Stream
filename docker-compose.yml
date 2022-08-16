@@ -47,6 +47,7 @@ services:
     container_name: stream
     volumes:
       - "./stream_data/src:/home"
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
 
   # mysql:
   #   image: mysql
