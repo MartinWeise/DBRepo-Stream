@@ -43,6 +43,8 @@ services:
     build:
       context: ./stream_data
       dockerfile: Dockerfile
+    networks:
+      - "public"
     restart: always
     container_name: stream
     volumes:
@@ -74,3 +76,7 @@ networks:
   default:
     external:
       name: ${DOCKER_NETWORK_NAME}
+  public:
+    external:
+      name: public
+        
