@@ -1,0 +1,9 @@
+pandas
+numpy
+dbrepo==0.1.5
+plotly
+datetime
+pytz
+regex
+ipython-secrets
+keyring

@@ -116,7 +116,7 @@ def send(df : pd.DataFrame):
 
     for _, row in df.iterrows():
         payload = row.to_json()
-        channel.basic_publish(exchange=db_name, routing_key=table_name, body=payload)
+        channel.basic_publish(exchange=db_name.lower(), routing_key=table_name, body=payload)
 
     channel.close()
 
@@ -125,17 +125,17 @@ def send(df : pd.DataFrame):
 
 
 
-url = 'http://s125.dl.hpc.tuwien.ac.at'
-broker_url = 'broker-service'
+url = 'https://dbrepo.ossdip.at'
+broker_url = '128.130.202.19'
 
 user = 'jtaha'
 passw = 'pw'
 
-db_name = 'AirData'
+db_name = 'AirQuality'
 db_desc = 'This database contains real-time airquality data from 170 stations in Austria || Data-Source: luft.umweltbundesamt.at'
 dbid = cid = None
 
-client = dbr.Client(username=user,password=passw,url=url)
+client = dbr.Client(username=user,password=passw,url=url, verifyTLS=False)
 
 
 
@@ -168,7 +168,9 @@ def main():
         persist_current_dataframe(df)
 
         new.reset_index(inplace=True)
-        send(new)
+
+        if not new.empty:
+            send(new)
 
         sleep(600)
 
