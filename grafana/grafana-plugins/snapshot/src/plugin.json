@@ -1,12 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
-  "name": "dbrepo-snapshot",
-  "id": "dbs-dbrepo-snapshot",
+  "name": "snapshot",
+  "id": "org-snapshot",
   "info": {
-    "description": "Plugin for taking DBRepo Snapshots and generating a QID",
+    "description": "",
     "author": {
-      "name": false,
+      "name": "Jossef",
       "url": ""
     },
     "keywords": [],

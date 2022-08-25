@@ -1,4 +1,4 @@
-version: "2"
+version: "3.0"
 
 services:
 
@@ -31,16 +31,31 @@ services:
 
 
   grafana:
-    image: grafana/grafana-oss
+    image: grafana/grafana-oss:9.1.1
     restart: always
     container_name: grafana
+    environment:
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=org-snapshot
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:rw"
       - grafana-data:/var/lib/grafana
-      - "./grafana/grafana.ini:/etc/grafana/grafana.ini"
-      - "./grafana/grafana-plugins:/etc/grafana/grafana-plugins"
+      - "/home/josef/jupyterhub/grafana/grafana.ini:/etc/grafana/grafana.ini"
+      - "/home/josef/jupyterhub/grafana/grafana-plugins/:/var/lib/grafana/plugins"
     ports:
       - "8080:3000"
+    user: "472"
+    depends_on:
+      - grafana-server
+
+  grafana-server:
+    build:
+      context: ./grafana/microserver
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - "./grafana/microserver/main.py:/home/main.py"
+    ports:
+      - "8000:8000"
+
 
   stream:
     build:
