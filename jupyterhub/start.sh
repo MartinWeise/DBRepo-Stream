@@ -19,4 +19,4 @@ docker volume create --name ${DB_VOLUME_HOST}
 docker pull ${DOCKER_NOTEBOOK_IMAGE}
 
 # build compose file
-docker-compose build --no-cache
+docker compose build --no-cache
